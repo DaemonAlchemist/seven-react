@@ -1,3 +1,6 @@
+import { number } from 'prop-types';
+
+// Entities
 export interface IPlayer {
     id:number;
     name:string;
@@ -25,3 +28,33 @@ export interface IGame {
     bids:Bid[];
 };
 export type Game = IGame;
+
+// Redux
+// Action types
+export enum ActionType {
+    InitGame,
+    AddPlayer,
+    SetBid,
+};
+
+export interface IAction {
+    type:ActionType;
+};
+export type Action = IAction;
+
+export interface IInitGameAction extends IAction {
+    type:ActionType.InitGame;
+};
+export type InitGameAction = IInitGameAction;
+
+export interface IAddPlayerAction extends IAction {
+    type:ActionType.AddPlayer;
+    name:string;
+};
+export type AddPlayerAction = IAddPlayerAction;
+
+export interface ISetBidAction extends IAction {
+    type:ActionType.SetBid;
+    bid:Bid;
+};
+export type SetBidAction = ISetBidAction;
