@@ -28,6 +28,11 @@ export interface IGame {
 };
 export type Game = IGame;
 
+export interface IGameContainer {
+    seven:Game;
+}
+export type GameContainer = IGameContainer;
+
 // Redux
 // Action types
 export enum ActionType {
