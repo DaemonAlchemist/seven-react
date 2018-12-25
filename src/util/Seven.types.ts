@@ -1,4 +1,3 @@
-import { number } from 'prop-types';
 
 // Entities
 export interface IPlayer {
