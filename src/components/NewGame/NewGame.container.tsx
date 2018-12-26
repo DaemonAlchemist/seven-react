@@ -13,6 +13,7 @@ export const NewGame = connect<INewGameStateProps, INewGameDispatchProps>(
     (dispatch:any):INewGameDispatchProps => ({
         addPlayer:(name:string) => () => {alert(name);},
         onNewPlayerNameChange: (e:any) => {dispatch(input.set("newPlayer", e.target.value));},
+        removePlayer:(id:number) => () => {alert(id);},
         setInitialDealer:(playerId:number) => () => {alert(playerId);},
         startGame: () => {alert("start game");},
     })

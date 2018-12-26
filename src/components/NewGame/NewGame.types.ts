@@ -9,6 +9,7 @@ export interface INewGameStateProps {
 export interface INewGameDispatchProps {
     addPlayer:(name:string) => () => void;
     onNewPlayerNameChange: (e:any) => void;
+    removePlayer:(id:number) => () => void;
     setInitialDealer:(playerId:number) => () => void;
     startGame: () => void;
 };

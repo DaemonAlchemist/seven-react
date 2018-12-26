@@ -11,6 +11,12 @@ export const NewGameComponent = (props:NewGameComponentProps) =>
         {props.players.map((player:Player) =>
             <Col key={player.id} xs={24}>
                 {player.name}
+                <Icon
+                    type="close-square"
+                    theme="twoTone"
+                    onClick={props.removePlayer(player.id)}
+                    style={{float: "right"}}
+                />
                 {(props.initialDealerId === player.id) &&
                     <Tag color="green" style={{float: "right"}}><Icon type="check" /> First dealer</Tag>
                 }
