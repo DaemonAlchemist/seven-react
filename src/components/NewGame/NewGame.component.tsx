@@ -1,18 +1,33 @@
-import {Button,Col, Icon, Input, Row} from 'antd';
+import {Button, Icon, Input, Tag} from 'antd';
 import * as React from 'react';
 import {Player} from "../../util/Seven.types";
+import {Col, Divider, Row} from "../Layout";
 import {NewGameComponentProps} from './NewGame.types';
 
 export const NewGameComponent = (props:NewGameComponentProps) =>
     <Row>
-        <Col xs={24}><Icon type="user" /> Add Players</Col>
+        <Col xs={24}><em><Icon type="usergroup-add" /> New Game</em></Col>
+        <Divider />
         {props.players.map((player:Player) =>
             <Col key={player.id} xs={24}>
-                <Input value={player.name} />
+                {player.name}
+                {(props.initialDealerId === player.id) &&
+                    <Tag color="green" style={{float: "right"}}><Icon type="check" /> First dealer</Tag>
+                }
+                {(props.initialDealerId !== player.id) &&
+                    <Tag onClick={props.setInitialDealer(player.id)} style={{float: "right"}}>Deal first</Tag>
+                }
             </Col>
         )}
-        <Input.Group>
-            <Col xs={20}><Input /></Col>
-            <Col xs={4}><Button style={{width: "100%"}}><Icon type="plus" /> Add player</Button></Col>
-        </Input.Group>
+        <Col xs={24}>
+            <Input
+                onChange={props.onNewPlayerNameChange}
+                addonAfter={<Icon type="plus" onClick={props.addPlayer(props.newPlayerName)}/>}
+            />
+        </Col>
+        <Col xs={24}>
+            <Button onClick={props.startGame} style={{float: "right"}}>
+                <Icon type="play-circle" /> Start game
+            </Button>
+        </Col>
     </Row>;
