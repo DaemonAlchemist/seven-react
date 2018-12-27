@@ -6,17 +6,18 @@ export interface IPlayer {
 };
 export type Player = IPlayer;
 
+export type HandCount = 1|2|3|4|5|6|7;
+
 export interface IRound {
     id:number;
-    dealerId:number;
-    handCount:1|2|3|4|5|6|7;
+    handCount:HandCount;
 };
 export type Round = IRound;
 
 export interface IBid {
     playerId:number;
     roundId:number;
-    bid?:1|2|3|4|5|6|7;
+    bid?:HandCount|0;
     won?:boolean;
 };
 export type Bid = IBid;
@@ -25,6 +26,7 @@ export interface IGame {
     players:Player[];
     rounds:Round[];
     bids:Bid[];
+    initialDealerId:number;
 };
 export type Game = IGame;
 
@@ -38,6 +40,8 @@ export type GameContainer = IGameContainer;
 export enum ActionType {
     InitGame,
     AddPlayer,
+    RemovePlayer,
+    SetInitialDealer,
     SetBid,
 };
 
@@ -56,6 +60,18 @@ export interface IAddPlayerAction extends IAction {
     name:string;
 };
 export type AddPlayerAction = IAddPlayerAction;
+
+export interface IRemovePlayerAction extends IAction {
+    type: ActionType.RemovePlayer;
+    id:number;
+}
+export type RemovePlayerAction = IRemovePlayerAction;
+
+export interface ISetInitialDealerAction extends IAction {
+    type:ActionType.SetInitialDealer;
+    id:number;
+}
+export type SetInitialDealerAction = ISetInitialDealerAction;
 
 export interface ISetBidAction extends IAction {
     type:ActionType.SetBid;

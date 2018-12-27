@@ -28,11 +28,12 @@ export const NewGameComponent = (props:NewGameComponentProps) =>
         <Col xs={24}>
             <Input
                 onChange={props.onNewPlayerNameChange}
+                value={props.newPlayerName}
                 addonAfter={<Icon type="plus" onClick={props.addPlayer(props.newPlayerName)}/>}
             />
         </Col>
         <Col xs={24}>
-            <Button onClick={props.startGame} style={{float: "right"}}>
+            <Button onClick={props.startGame} style={{float: "right"}} disabled={props.disableStartBtn}>
                 <Icon type="play-circle" /> Start game
             </Button>
         </Col>

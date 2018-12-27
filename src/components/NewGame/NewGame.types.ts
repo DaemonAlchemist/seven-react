@@ -4,6 +4,7 @@ export interface INewGameStateProps {
     players:Player[];
     initialDealerId:number;
     newPlayerName:string;
+    disableStartBtn:boolean;
 };
 
 export interface INewGameDispatchProps {
