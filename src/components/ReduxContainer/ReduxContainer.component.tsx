@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
+import {load, save} from 'redux-localstorage-simple';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import { sevenReducer } from "../../util/Seven.redux";
@@ -19,8 +20,8 @@ export const ReduxContainer = (props:any) => {
 
     const store = createStore(
         combineReducers(reducers),
-        {},
-        applyMiddleware(routerMiddleware(history), thunk, createLogger())
+        load(),
+        applyMiddleware(routerMiddleware(history), thunk, createLogger(), save())
     );
 
     return (

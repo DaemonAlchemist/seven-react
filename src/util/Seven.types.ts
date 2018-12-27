@@ -11,6 +11,7 @@ export type HandCount = 1|2|3|4|5|6|7;
 export interface IRound {
     id:number;
     handCount:HandCount;
+    complete:boolean;
 };
 export type Round = IRound;
 
