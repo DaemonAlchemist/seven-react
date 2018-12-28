@@ -49,3 +49,4 @@ export const getPlayers = (state:IGameContainer):IPlayer[] => state.seven.player
 export const getRounds = (state:IGameContainer):IRound[] => state.seven.rounds;
 export const getRound = (state:IGameContainer, roundId:number):IRound => state.seven.rounds.filter(round => round.id === roundId)[0];
 export const getBids = (state:IGameContainer):IBid[] => state.seven.bids;
+export const getBidsByRound = (state:IGameContainer, roundId:number) => state.seven.bids.filter(bid => bid.roundId === roundId);

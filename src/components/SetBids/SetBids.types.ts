@@ -1,10 +1,12 @@
 import { RouteComponentProps } from 'react-router';
-import { Bid, Player, Round } from '../../util/Seven.types';
+import { Player, Round } from '../../util/Seven.types';
 
 export interface ISetBidsStateProps {
     players:Player[];
-    bids:Bid[];
+    getBid: (playerId:number) => number | undefined;
     round:Round;
+    canStart:boolean;
+    dealerId:number;
 };
 
 export interface ISetBidsDispatchProps {
