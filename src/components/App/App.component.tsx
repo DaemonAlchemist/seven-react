@@ -19,8 +19,8 @@ export const App = () =>
       <Layout.Content>
         <Route exact path="/" component={NewGame} />
         <Route exact path="/overview" component={Overview} />
-        <Route exact path="/set-bids/:round" component={SetBids} />
-        <Route exact path="/record-results/:round" component={RecordResults} />
+        <Route exact path="/set-bids/:roundId" component={SetBids} />
+        <Route exact path="/record-results/:roundId" component={RecordResults} />
       </Layout.Content>
     </Layout>
   </ReduxContainer>;

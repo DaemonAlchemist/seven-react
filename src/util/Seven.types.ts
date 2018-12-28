@@ -15,10 +15,12 @@ export interface IRound {
 };
 export type Round = IRound;
 
+export type AllowedBid = HandCount|0;
+
 export interface IBid {
     playerId:number;
     roundId:number;
-    bid?:HandCount|0;
+    bid?:AllowedBid;
     won?:boolean;
 };
 export type Bid = IBid;

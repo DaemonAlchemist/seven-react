@@ -1,6 +1,6 @@
 import {switchOn} from 'atp-pointfree';
 import {
-    ActionType, AddPlayerAction, HandCount, IAction, IBid, IGame, IGameContainer, IPlayer, IRound, RemovePlayerAction, SetInitialDealerAction
+    ActionType, AddPlayerAction, HandCount, IAction, IBid, IGame, IGameContainer, IPlayer, IRound, ISetBidAction, RemovePlayerAction, SetInitialDealerAction
 } from "./Seven.types";
 
 // Action creators
@@ -8,6 +8,7 @@ export const initGame = () => ({type: ActionType.InitGame});
 export const addPlayer = (name:string) => ({type: ActionType.AddPlayer, name});
 export const removePlayer = (id:number) => ({type: ActionType.RemovePlayer, id});
 export const setInitialDealer = (id:number) => ({type: ActionType.SetInitialDealer, id});
+export const setBid = (bid:IBid) => ({type:ActionType.SetBid, bid});
 
 // Reducer
 const initialState = {
@@ -34,7 +35,11 @@ export const sevenReducer = (state:IGame = initialState, action:IAction) => swit
     [ActionType.SetInitialDealer]: () => Object.assign({}, state, {
         initialDealerId: (action as SetInitialDealerAction).id
     }),
-    [ActionType.SetBid]: () => state,
+    [ActionType.SetBid]: () => Object.assign({}, state, {
+        bids: state.bids
+            .filter((bid:IBid) => bid.roundId !== (action as ISetBidAction).bid.roundId || bid.playerId !== (action as ISetBidAction).bid.playerId)
+            .concat((action as ISetBidAction).bid)
+    }),
     default: () => state
 });
 
@@ -42,4 +47,5 @@ export const sevenReducer = (state:IGame = initialState, action:IAction) => swit
 export const getInitialDealerId = (state:IGameContainer):number => state.seven.initialDealerId;
 export const getPlayers = (state:IGameContainer):IPlayer[] => state.seven.players;
 export const getRounds = (state:IGameContainer):IRound[] => state.seven.rounds;
+export const getRound = (state:IGameContainer, roundId:number):IRound => state.seven.rounds.filter(round => round.id === roundId)[0];
 export const getBids = (state:IGameContainer):IBid[] => state.seven.bids;
