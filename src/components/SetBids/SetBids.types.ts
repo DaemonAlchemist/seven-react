@@ -4,6 +4,8 @@ import { Player, Round } from '../../util/Seven.types';
 export interface ISetBidsStateProps {
     players:Player[];
     getBid: (playerId:number) => number | undefined;
+    getWonColor: (playerId:number) => string | undefined;
+    getLostColor: (playerId:number) => string | undefined;
     round:Round;
     canStart:boolean;
     dealerId:number;
@@ -11,7 +13,8 @@ export interface ISetBidsStateProps {
 
 export interface ISetBidsDispatchProps {
     setBid:(roundId:number, playerId:number) => (bid:number) => void;
-    startRound: () => void;
+    setHandStatus: (roundId:number, playerId:number, bid:number | undefined, won:boolean) => () => void;
+    backToOverview: () => void;
 };
 
 export interface IRouteParams {
