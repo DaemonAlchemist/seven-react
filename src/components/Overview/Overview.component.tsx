@@ -1,4 +1,4 @@
-import {Icon} from 'antd';
+import {Button, Divider, Icon} from 'antd';
 import * as React from 'react';
 import {Bid} from "../Bid";
 import {Col} from "../Layout";
@@ -64,4 +64,8 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                 </div>
             </div>
         </div>
+        <Divider />
+        <Button onClick={props.newGame} style={{display: "block", width: "50%", margin: "auto"}}>
+            <Icon type="reload" /> New game
+        </Button>
     </Col>;

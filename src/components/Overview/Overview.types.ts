@@ -8,6 +8,7 @@ export interface IOverviewStateProps {
 
 export interface IOverviewDispatchProps {
     startRound:(id:number) => () => void;
+    newGame:() => void;
 }
 
 export type OverviewComponentProps = IOverviewStateProps & IOverviewDispatchProps;
