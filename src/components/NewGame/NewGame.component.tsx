@@ -26,11 +26,16 @@ export const NewGameComponent = (props:NewGameComponentProps) =>
             </Col>
         )}
         <Col xs={24}>
-            <Input
-                onChange={props.onNewPlayerNameChange}
-                value={props.newPlayerName}
-                addonAfter={<Icon type="plus" onClick={props.addPlayer(props.newPlayerName)}/>}
-            />
+            {props.players.length < 7 &&
+                <Input
+                    onChange={props.onNewPlayerNameChange}
+                    value={props.newPlayerName}
+                    addonAfter={<Icon type="plus" onClick={props.addPlayer(props.newPlayerName)}/>}
+                />
+            }
+            {props.players.length === 7 &&
+                <div style={{textAlign: "center"}}><em>The game is full.</em></div>
+            }
         </Col>
         <Col xs={24}>
             <Button onClick={props.startGame} style={{float: "right"}} disabled={props.disableStartBtn}>
