@@ -2,6 +2,7 @@ import {Button, Icon} from 'antd';
 import * as React from 'react';
 import {Bid} from "../Bid";
 import {Col} from "../Layout";
+import {Score} from "../Score";
 import { OverviewComponentProps } from './Overview.types';
 
 const cellWidth = (players:any[]) => ({
@@ -50,7 +51,7 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                                 <th style={cellWidth(props.players)}/>
                                     {props.players.map(player => 
                                         <th key={player.id} className="overview-player-footer" style={cellWidth(props.players)}>
-                                            0
+                                            <Score playerId={player.id} />
                                         </th>
                                     )}
                                 <th style={cellWidth(props.players)}/>
