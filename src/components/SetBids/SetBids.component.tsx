@@ -20,7 +20,14 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
         <Divider />
         {props.players.map((player:Player) => 
             <Col xs={24} key={player.id}>
-                {player.name} {player.id === props.dealerId && <Tag color="green">Dealer</Tag>}
+                {player.name} {player.id === props.dealerId &&
+                    <>
+                        <Tag color="green">Dealer</Tag>
+                        {props.dealerCantBid >= 0 &&
+                            <Tag color="red">Can't bid {props.dealerCantBid}</Tag>
+                        }
+                    </>
+                }
                 <div style={{float: "right"}}>
                     <Tag
                         color={props.getWonColor(player.id)}

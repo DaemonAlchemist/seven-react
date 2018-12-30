@@ -6,6 +6,7 @@ export interface ISetBidsStateProps {
     getBid: (playerId:number) => number | undefined;
     getWonColor: (playerId:number) => string | undefined;
     getLostColor: (playerId:number) => string | undefined;
+    dealerCantBid:number;
     round:Round;
     canStart:boolean;
     dealerId:number;
