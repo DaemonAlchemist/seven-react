@@ -12,6 +12,9 @@ const getBid = (state:IGameContainer, roundId:number, playerId:number):IBid =>
         .filter((bid:IBid) => bid.playerId === playerId)[0]
      || {bid: undefined};
 
+const getDealerId = (state:IGameContainer, roundId:number) =>
+    (getInitialDealerId(state) + (roundId)) % getPlayers(state).length
+
 export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchProps, SetBidsProps>(
     (state:IGameContainer, props:SetBidsProps):ISetBidsStateProps => ({
         canStart: getBidsByRound(state, +props.match.params.roundId)
@@ -22,7 +25,7 @@ export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchPr
                 .filter((bid:IBid) => typeof bid.bid === "number" && bid.bid >= 0)
                 .map((bid:IBid):number => bid.bid || 0)
                 .reduce((bids:number, bid:number) => bids + bid, 0),
-        dealerId: (getInitialDealerId(state) + (+props.match.params.roundId)) % getPlayers(state).length,
+        dealerId: getDealerId(state, +props.match.params.roundId),
         getBid: (playerId:number):number | undefined => getBid(state, +props.match.params.roundId, playerId).bid,
         getLostColor: (playerId:number):string | undefined => {
             const bid:IBid = getBid(state, +props.match.params.roundId, playerId);
@@ -32,7 +35,13 @@ export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchPr
             const bid:IBid = getBid(state, +props.match.params.roundId, playerId);
              return typeof bid.won === 'undefined' ? undefined : bid.won ? "green" : undefined;
         },
-        players: getPlayers(state),
+        players: (() => {
+            let players = getPlayers(state);
+            while(players[players.length - 1].id !== getDealerId(state, +props.match.params.roundId)) {
+                players = players.slice(1).concat(players[0]);
+            }
+            return players;
+        })(),
         round: getRound(state, +props.match.params.roundId),
     }),
     (dispatch:any, props:SetBidsProps):ISetBidsDispatchProps => ({
