@@ -1,4 +1,4 @@
-import {Button, Icon} from 'antd';
+import {Icon} from 'antd';
 import * as React from 'react';
 import {Bid} from "../Bid";
 import {Col} from "../Layout";
@@ -39,9 +39,12 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                                         </td>
                                     )}
                                     <td style={cellWidth(props.players)}>
-                                        <Button onClick={props.startRound(round.id)}>
-                                            <Icon type={round.complete ? "check" : "arrow-right"} />
-                                        </Button>
+                                        <Icon
+                                            onClick={props.startRound(round.id)}
+                                            theme="twoTone"
+                                            type={round.complete ? "check-circle" : "right-circle"}
+                                            twoToneColor={round.complete ? "#52c41a" : undefined}
+                                        />
                                     </td>
                                 </tr>
                             )}

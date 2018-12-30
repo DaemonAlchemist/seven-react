@@ -1,6 +1,7 @@
-import {switchOn} from 'atp-pointfree';
+import {splice, switchOn} from 'atp-pointfree';
 import {
-    ActionType, AddPlayerAction, HandCount, IAction, IBid, IGame, IGameContainer, IPlayer, IRound, ISetBidAction, RemovePlayerAction, SetInitialDealerAction
+    ActionType, AddPlayerAction, HandCount, IAction, IBid, ICompleteRoundAction, IGame,
+    IGameContainer, IPlayer, IRound, ISetBidAction, RemovePlayerAction, SetInitialDealerAction
 } from "./Seven.types";
 
 // Action creators
@@ -9,7 +10,7 @@ export const addPlayer = (name:string) => ({type: ActionType.AddPlayer, name});
 export const removePlayer = (id:number) => ({type: ActionType.RemovePlayer, id});
 export const setInitialDealer = (id:number) => ({type: ActionType.SetInitialDealer, id});
 export const setBid = (bid:IBid) => ({type:ActionType.SetBid, bid});
-
+export const completeRound = (roundId:number) => ({type:ActionType.CompleteRound, roundId});
 // Reducer
 const initialState = {
     bids: [],
@@ -39,6 +40,13 @@ export const sevenReducer = (state:IGame = initialState, action:IAction) => swit
         bids: state.bids
             .filter((bid:IBid) => bid.roundId !== (action as ISetBidAction).bid.roundId || bid.playerId !== (action as ISetBidAction).bid.playerId)
             .concat((action as ISetBidAction).bid)
+    }),
+    [ActionType.CompleteRound]: () => Object.assign({}, state, {
+        rounds: splice(
+            (action as ICompleteRoundAction).roundId,
+            1,
+            Object.assign({}, state.rounds[(action as ICompleteRoundAction).roundId], {complete: true})
+        )(state.rounds)
     }),
     default: () => state
 });

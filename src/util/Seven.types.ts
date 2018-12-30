@@ -46,6 +46,7 @@ export enum ActionType {
     RemovePlayer,
     SetInitialDealer,
     SetBid,
+    CompleteRound,
 };
 
 export interface IAction {
@@ -81,3 +82,9 @@ export interface ISetBidAction extends IAction {
     bid:Bid;
 };
 export type SetBidAction = ISetBidAction;
+
+export interface ICompleteRoundAction extends IAction {
+    type:ActionType.CompleteRound;
+    roundId:number;
+}
+export type CompleteRoundAction = ICompleteRoundAction;

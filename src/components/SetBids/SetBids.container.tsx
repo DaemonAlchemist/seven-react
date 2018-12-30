@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 
-import { getBidsByRound, getInitialDealerId, getPlayers, getRound, setBid } from '../../util/Seven.redux';
+import { completeRound, getBidsByRound, getInitialDealerId, getPlayers, getRound, setBid } from '../../util/Seven.redux';
 import { AllowedBid, IBid, IGameContainer } from '../../util/Seven.types';
 import {SetBidsComponent} from './SetBids.component';
 import {ISetBidsDispatchProps, ISetBidsStateProps, SetBidsProps} from "./SetBids.types";
@@ -32,6 +32,7 @@ export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchPr
     }),
     (dispatch:any, props:SetBidsProps):ISetBidsDispatchProps => ({
         backToOverview: () => {
+            dispatch(completeRound(+props.match.params.roundId));
             dispatch(push(`/overview`));
         },
         setBid: (roundId:number, playerId:number) => (bid:AllowedBid) => {
