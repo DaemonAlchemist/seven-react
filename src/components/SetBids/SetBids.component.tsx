@@ -18,9 +18,11 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
             <b>Round {props.round.id + 1} ({props.round.handCount} {props.round.handCount > 1 ? "hands" : "hand"})</b>
         </Col>
         <Divider />
-        {props.players.map((player:Player) => 
+        {props.players.map((player:Player, index:number) => 
             <Col xs={24} key={player.id}>
-                {player.name} {player.id === props.dealerId &&
+                {player.name}&nbsp;
+                {index === 0 && <Tag color="green">Leads</Tag>}
+                {player.id === props.dealerId &&
                     <>
                         <Tag color="green">Dealer</Tag>
                         {props.dealerCantBid >= 0 &&

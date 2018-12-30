@@ -25,13 +25,16 @@ export const sevenReducer = (state:IGame = initialState, action:IAction) => swit
         players: state.players.concat({
             id: (state.players[state.players.length - 1] || {id: -1}).id + 1,
             name: (action as AddPlayerAction).name
-        }),
+        })
+        .map((player:IPlayer, id:number) => ({...player, id})),
     }),
     [ActionType.RemovePlayer]: () => Object.assign({}, state, {
         initialDealerId: state.initialDealerId === (action as RemovePlayerAction).id
             ? (state.players.filter(player => player.id !== (action as RemovePlayerAction).id)[0] || {id: -1}).id
             : state.initialDealerId,
-        players: state.players.filter(player => player.id !== (action as RemovePlayerAction).id),
+        players: state.players
+            .filter(player => player.id !== (action as RemovePlayerAction).id)
+            .map((player:IPlayer, id:number) => ({...player, id})),
     }),
     [ActionType.SetInitialDealer]: () => Object.assign({}, state, {
         initialDealerId: (action as SetInitialDealerAction).id
