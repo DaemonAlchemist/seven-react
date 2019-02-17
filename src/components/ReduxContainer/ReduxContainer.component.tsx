@@ -1,4 +1,3 @@
-import basicReducer from 'basic-reducers';
 import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import * as React from 'react';
@@ -16,7 +15,6 @@ export const ReduxContainer = (props:{children:any, reducers:IReducerContainer})
     const history = createBrowserHistory();
 
     const reducers = {
-        basic: basicReducer,
         router: connectRouter(history),
         ...props.reducers
     };

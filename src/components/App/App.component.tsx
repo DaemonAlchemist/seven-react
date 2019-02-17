@@ -1,4 +1,5 @@
 import { Layout, Menu } from 'antd';
+import basic from 'basic-reducers';
 import * as React from 'react';
 import { Route } from 'react-router';
 import { sevenReducer as seven } from "../../util/Seven.redux";
@@ -9,7 +10,7 @@ import { SetBids } from "../SetBids";
 import './App.css';
 
 export const App = () => 
-  <ReduxContainer reducers={{seven}}>
+  <ReduxContainer reducers={{basic, seven}}>
     <Layout>
       <Layout.Header>
         <Menu theme="dark" mode="horizontal">
