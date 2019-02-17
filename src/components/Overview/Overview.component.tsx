@@ -1,7 +1,8 @@
-import {Button, Icon} from 'antd';
+import {Button, Divider, Icon} from 'antd';
 import * as React from 'react';
 import {Bid} from "../Bid";
 import {Col} from "../Layout";
+import {Score} from "../Score";
 import { OverviewComponentProps } from './Overview.types';
 
 const cellWidth = (players:any[]) => ({
@@ -38,9 +39,12 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                                         </td>
                                     )}
                                     <td style={cellWidth(props.players)}>
-                                        <Button onClick={props.startRound(round.id)}>
-                                            <Icon type={round.complete ? "check" : "arrow-right"} />
-                                        </Button>
+                                        <Icon
+                                            onClick={props.startRound(round.id)}
+                                            theme="twoTone"
+                                            type={round.complete ? "check-circle" : "right-circle"}
+                                            twoToneColor={round.complete ? "#52c41a" : undefined}
+                                        />
                                     </td>
                                 </tr>
                             )}
@@ -50,7 +54,7 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                                 <th style={cellWidth(props.players)}/>
                                     {props.players.map(player => 
                                         <th key={player.id} className="overview-player-footer" style={cellWidth(props.players)}>
-                                            0
+                                            <Score playerId={player.id} />
                                         </th>
                                     )}
                                 <th style={cellWidth(props.players)}/>
@@ -60,4 +64,8 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                 </div>
             </div>
         </div>
+        <Divider />
+        <Button onClick={props.newGame} style={{display: "block", width: "50%", margin: "auto"}}>
+            <Icon type="reload" /> New game
+        </Button>
     </Col>;
