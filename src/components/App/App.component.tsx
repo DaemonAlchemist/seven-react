@@ -1,15 +1,16 @@
 import { Layout, Menu } from 'antd';
 import * as React from 'react';
-import {Route} from 'react-router';
-import {NewGame} from '../NewGame';
-import {Overview} from "../Overview";
-import {RecordResults} from "../RecordResults";
+import { Route } from 'react-router';
+import { sevenReducer as seven } from "../../util/Seven.redux";
+import { NewGame } from '../NewGame';
+import { Overview } from "../Overview";
+import { RecordResults } from "../RecordResults";
 import { ReduxContainer } from "../ReduxContainer";
-import {SetBids} from "../SetBids";
+import { SetBids } from "../SetBids";
 import './App.css';
 
 export const App = () => 
-  <ReduxContainer>
+  <ReduxContainer reducers={{seven}}>
     <Layout>
       <Layout.Header>
         <Menu theme="dark" mode="horizontal">

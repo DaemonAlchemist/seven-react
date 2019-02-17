@@ -7,15 +7,18 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import {load, save} from 'redux-localstorage-simple';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import { sevenReducer } from "../../util/Seven.redux";
 
-export const ReduxContainer = (props:any) => {
+interface IReducerContainer {
+    [id:string]:(state:any, action:any) => any;
+}
+
+export const ReduxContainer = (props:{children:any, reducers:IReducerContainer}) => {
     const history = createBrowserHistory();
 
     const reducers = {
         basic: basicReducer,
         router: connectRouter(history),
-        seven: sevenReducer,
+        ...props.reducers
     };
 
     const store = createStore(
