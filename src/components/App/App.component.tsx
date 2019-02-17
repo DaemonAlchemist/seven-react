@@ -2,10 +2,10 @@ import { Layout, Menu } from 'antd';
 import basic from 'basic-reducers';
 import * as React from 'react';
 import { Route } from 'react-router';
+import { ReduxContainer } from "simple-redux-container";
 import { sevenReducer as seven } from "../../util/Seven.redux";
 import { NewGame } from '../NewGame';
 import { Overview } from "../Overview";
-import { ReduxContainer } from "../ReduxContainer";
 import { SetBids } from "../SetBids";
 import './App.css';
 
