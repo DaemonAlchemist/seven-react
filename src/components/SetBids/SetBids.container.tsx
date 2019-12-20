@@ -22,7 +22,7 @@ export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchPr
             .length === getPlayers(state).length,
         dealerCantBid: getRound(state, +props.match.params.roundId).handCount - 
             getBidsByRound(state, +props.match.params.roundId)
-                .filter((bid:IBid) => typeof bid.bid === "number" && bid.bid >= 0)
+                .filter((bid:IBid) => typeof bid.bid === "number" && bid.bid >= 0 && bid.playerId !== getDealerId(state, +props.match.params.roundId))
                 .map((bid:IBid):number => bid.bid || 0)
                 .reduce((bids:number, bid:number) => bids + bid, 0),
         dealerId: getDealerId(state, +props.match.params.roundId),

@@ -4,10 +4,15 @@ import {HandCount, Player} from "../..//util/Seven.types";
 import {Col, Divider} from "../Layout";
 import { SetBidsComponentProps } from './SetBids.types';
 
-const getOptions = (handCount:HandCount):{} => {
+const getOptions = (handCount:HandCount, isDealer:boolean, cantBid:number):{} => {
     const options = {[-1]: ''};
     for(let i=0; i<=handCount; i++) {
-        options[i] = `${i}`;
+        options[i] = !isDealer || i !== cantBid
+            ? `${i}`
+            : {
+                label: `${i}`,
+                style: {color: "#ff0000"},
+            };
     }
     return options;
 };
@@ -47,7 +52,7 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
                 <Slider
                     min={-1}
                     max={props.round.handCount}
-                    marks={getOptions(props.round.handCount)}
+                    marks={getOptions(props.round.handCount, player.id === props.dealerId, props.dealerCantBid)}
                     step={1}
                     value={props.getBid(player.id)}
                     onChange={props.setBid(props.round.id, player.id)}
