@@ -9,6 +9,7 @@ export interface ISetBidsStateProps {
     dealerCantBid:number;
     round:Round;
     canStart:boolean;
+    canFinish:boolean;
     dealerId:number;
 };
 
@@ -16,6 +17,8 @@ export interface ISetBidsDispatchProps {
     setBid:(roundId:number, playerId:number) => (bid:number) => void;
     setHandStatus: (roundId:number, playerId:number, bid:number | undefined, won:boolean) => () => void;
     backToOverview: () => void;
+    prevRound: () => void;
+    nextRound: () => void;
 };
 
 export interface IRouteParams {

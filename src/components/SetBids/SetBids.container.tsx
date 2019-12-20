@@ -17,6 +17,9 @@ const getDealerId = (state:IGameContainer, roundId:number) =>
 
 export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchProps, SetBidsProps>(
     (state:IGameContainer, props:SetBidsProps):ISetBidsStateProps => ({
+        canFinish: getBidsByRound(state, +props.match.params.roundId)
+            .filter((bid:IBid) => typeof bid.won !== 'undefined')
+            .length === getPlayers(state).length, 
         canStart: getBidsByRound(state, +props.match.params.roundId)
             .filter((bid:IBid) => typeof bid.bid !== 'undefined' && bid.bid >= 0)
             .length === getPlayers(state).length,
@@ -48,6 +51,16 @@ export const SetBids = withRouter(connect<ISetBidsStateProps, ISetBidsDispatchPr
         backToOverview: () => {
             dispatch(completeRound(+props.match.params.roundId));
             dispatch(push(`/overview`));
+        },
+        nextRound: () => {
+            dispatch(completeRound(+props.match.params.roundId));
+            dispatch(push(`/overview`));
+            setTimeout(() => {
+                dispatch(push(`/set-bids/${+props.match.params.roundId + 1}`));
+            }, 0);
+        },
+        prevRound: () => {
+            dispatch(push(`/set-bids/${+props.match.params.roundId - 1}`))
         },
         setBid: (roundId:number, playerId:number) => (bid:AllowedBid) => {
             dispatch(setBid({roundId, playerId, bid}));

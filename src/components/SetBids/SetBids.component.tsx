@@ -1,7 +1,7 @@
 import {Button, Icon, Slider, Tag} from 'antd';
 import * as React from 'react';
 import {HandCount, Player} from "../..//util/Seven.types";
-import {Col, Divider} from "../Layout";
+import {Col, Divider, Row} from "../Layout";
 import { SetBidsComponentProps } from './SetBids.types';
 
 const getOptions = (handCount:HandCount, isDealer:boolean, cantBid:number):{} => {
@@ -18,7 +18,7 @@ const getOptions = (handCount:HandCount, isDealer:boolean, cantBid:number):{} =>
 };
 
 export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
-    <>
+    <Row>
         <Col xs={24}>
             <b>Round {props.round.id + 1} ({props.round.handCount} {props.round.handCount > 1 ? "hands" : "hand"})</b>
         </Col>
@@ -35,7 +35,7 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
                         }
                     </>
                 }
-                <div style={{float: "right"}}>
+                <div style={{float: "right", display: props.canStart ? "block" : "none"}}>
                     <Tag
                         color={props.getWonColor(player.id)}
                         onClick={props.setHandStatus(props.round.id, player.id, props.getBid(player.id), true)}
@@ -61,9 +61,22 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
                 <Divider />
             </Col>
         )}
+        <Col xs={12}>
+            {props.round.id > 0 && <Button onClick={props.prevRound}>
+                <Icon type="arrow-left" /> Round&nbsp;{props.round.id}
+            </Button>}
+        </Col>
+        <Col xs={12}>
+            <div style={{textAlign: "right"}}>
+                {props.round.id < 12 && <Button disabled={!props.canFinish} onClick={props.nextRound}>
+                    Round&nbsp;{props.round.id + 2} <Icon type="arrow-right" />
+                </Button>}
+            </div>
+        </Col>
+        <Divider />
         <Col xs={24}>
-            <Button disabled={!props.canStart} onClick={props.backToOverview} style={{float: "right"}}>
-                <Icon type="arrow-right" /> Overview
+            <Button disabled={!props.canFinish} onClick={props.backToOverview} style={{marginLeft: "25%", width: "50%"}}>
+                <Icon type="arrow-up" /> Back to overview
             </Button>
         </Col>
-    </>;
+    </Row>;
