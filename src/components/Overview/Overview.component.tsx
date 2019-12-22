@@ -44,7 +44,7 @@ export const OverviewComponent = (props:OverviewComponentProps) =>
                                                 onClick={props.startRound(round.id)}
                                                 theme="twoTone"
                                                 type={round.complete ? "check-circle" : "right-circle"}
-                                                twoToneColor={round.complete ? "#52c41a" : undefined}
+                                                twoToneColor={round.complete ? "#00aa00" : undefined}
                                             />
                                         </td>
                                     </tr>
