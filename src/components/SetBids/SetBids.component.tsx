@@ -17,8 +17,12 @@ const getOptions = (handCount:HandCount, isDealer:boolean, cantBid:number):{} =>
     return options;
 };
 
-export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
-    <Row>
+export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element => {
+    const [bidsLocked, setBidsLocked] = React.useState(false);
+    const lockBids = () => {setBidsLocked(true);}
+    const unlockBids = () => {setBidsLocked(false);}
+
+    return <Row>
         <Col xs={24}>
             <b>Round {props.round.id + 1} ({props.round.handCount} {props.round.handCount > 1 ? "hands" : "hand"})</b>
         </Col>
@@ -35,7 +39,7 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
                         }
                     </>
                 }
-                <div style={{float: "right", display: props.canStart ? "block" : "none"}}>
+                <div style={{float: "right", display: props.canStart && bidsLocked ? "block" : "none"}}>
                     <Tag
                         color={props.getWonColor(player.id)}
                         onClick={props.setHandStatus(props.round.id, player.id, props.getBid(player.id), true)}
@@ -49,24 +53,35 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
                         Got screwed
                     </Tag>
                 </div>
-                <Slider
-                    min={-1}
-                    max={props.round.handCount}
-                    marks={getOptions(props.round.handCount, player.id === props.dealerId, props.dealerCantBid)}
-                    step={1}
-                    value={props.getBid(player.id)}
-                    onChange={props.setBid(props.round.id, player.id)}
-                    style={{marginBottom: "32px"}}
-                />
+                <div style={{marginBottom: bidsLocked ? "16px" : "32px"}}>
+                    <Slider
+                        disabled={bidsLocked}
+                        min={-1}
+                        max={props.round.handCount}
+                        marks={getOptions(props.round.handCount, player.id === props.dealerId, props.dealerCantBid)}
+                        step={1}
+                        value={props.getBid(player.id)}
+                        onChange={props.setBid(props.round.id, player.id)}
+                        style={{display: bidsLocked ? "none" : undefined}}
+                    />
+                </div>
                 <Divider />
             </Col>
         )}
-        <Col xs={12}>
+        <Col xs={8}>
             {props.round.id > 0 && <Button onClick={props.prevRound}>
                 <Icon type="arrow-left" /> Round&nbsp;{props.round.id}
             </Button>}
         </Col>
-        <Col xs={12}>
+        <Col xs={8}>
+            {!bidsLocked && <Button onClick={lockBids}>
+                <Icon type="unlock" /> Lock bids
+            </Button>}
+            {bidsLocked && <Button onClick={unlockBids}>
+                <Icon type="lock" /> Unlock bids
+            </Button>}
+        </Col>
+        <Col xs={8}>
             <div style={{textAlign: "right"}}>
                 {props.round.id < 12 && <Button disabled={!props.canFinish} onClick={props.nextRound}>
                     Round&nbsp;{props.round.id + 2} <Icon type="arrow-right" />
@@ -80,3 +95,4 @@ export const SetBidsComponent = (props:SetBidsComponentProps):JSX.Element =>
             </Button>
         </Col>
     </Row>;
+}
