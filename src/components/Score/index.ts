@@ -1,1 +1,1 @@
-export {Score} from './Score.container';
+export {Score} from "./Score.container";

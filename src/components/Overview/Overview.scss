@@ -1,0 +1,20 @@
+
+th.overview-player-header {
+    position: relative;
+}
+
+.overview-player-label {
+    position: absolute;
+    transform: rotate(-30deg);
+    overflow: visible;
+    z-index: 999;
+}
+
+table.overview {
+    tbody {
+        tr td {
+            font-size: large;
+            padding-top: 8px;
+        }
+    }
+}

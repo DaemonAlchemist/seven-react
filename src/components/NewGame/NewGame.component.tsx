@@ -1,45 +1,59 @@
-import {Button, Icon, Input, Tag} from 'antd';
-import * as React from 'react';
-import {Player} from "../../util/Seven.types";
-import {Col, Divider, Row} from "../Layout";
-import {NewGameComponentProps} from './NewGame.types';
+import { CheckOutlined, CloseSquareTwoTone, PlayCircleOutlined, PlusOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { Alert, Button, Col, Divider, Input, Row, Tag } from 'antd';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IPlayer } from '../../util/types';
+import { NewGameProps } from "./NewGame.d";
+import './NewGame.scss';
 
-export const NewGameComponent = (props:NewGameComponentProps) =>
-    <Row>
-        <Col xs={24}><em><Icon type="usergroup-add" /> New Game</em></Col>
+export const NewGameComponent = (props:NewGameProps) => {
+    const [newName, setNewName] = useState<string>("");
+    const updateName = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setNewName(e.currentTarget.value);
+    }
+
+    const addPlayer = () => {
+        props.players.add(newName);
+        setNewName("");
+    }
+
+    const navigate = useNavigate();
+    const startGame = () => {navigate("/overview");}
+    const cantStartGame = props.dealer.first === -1 || props.players.list.length < 2;
+
+    return <Row className="new-game-form">
+        <Col xs={24} className="page-title"><em><UsergroupAddOutlined /> New Game</em></Col>
         <Divider />
-        {props.players.map((player:Player) =>
+        {props.players.list.map((player:IPlayer) =>
             <Col key={player.id} xs={24}>
                 {player.name}
-                <Icon
-                    type="close-square"
-                    theme="twoTone"
-                    onClick={props.removePlayer(player.id)}
-                    style={{float: "right"}}
-                />
-                {(props.initialDealerId === player.id) &&
-                    <Tag color="green" style={{float: "right"}}><Icon type="check" /> First dealer</Tag>
+                <CloseSquareTwoTone style={{float: "right"}} onClick={props.players.remove(player.id)} />
+                {(props.dealer.first === player.id) &&
+                    <Tag color="green" style={{float: "right"}}><CheckOutlined /> First dealer</Tag>
                 }
-                {(props.initialDealerId !== player.id) &&
-                    <Tag onClick={props.setInitialDealer(player.id)} style={{float: "right"}}>Deal first</Tag>
+                {(props.dealer.first !== player.id) &&
+                    <Tag onClick={props.dealer.set(player.id)} style={{float: "right"}}>Deal first</Tag>
                 }
             </Col>
         )}
         <Col xs={24}>
-            {props.players.length < 7 &&
+            {props.players.list.length < 7 &&
                 <Input
-                    onChange={props.onNewPlayerNameChange}
-                    value={props.newPlayerName}
-                    addonAfter={<Icon type="plus" onClick={props.addPlayer(props.newPlayerName)}/>}
+                    onChange={updateName}
+                    value={newName}
+                    placeholder='New player'
+                    onPressEnter={addPlayer}
+                    addonAfter={<PlusOutlined onClick={addPlayer}/>}
                 />
             }
-            {props.players.length === 7 &&
-                <div style={{textAlign: "center"}}><em>The game is full.</em></div>
+            {props.players.list.length === 7 &&
+                <Alert type="info" message="The game is full" />
             }
         </Col>
-        <Col xs={24}>
-            <Button onClick={props.startGame} style={{float: "right"}} disabled={props.disableStartBtn}>
-                <Icon type="play-circle" /> Start game
+        <Col xs={24} className="start-btn-container">
+            <Button type="primary" size="large" onClick={startGame} disabled={cantStartGame}>
+                <PlayCircleOutlined /> Start game
             </Button>
         </Col>
     </Row>;
+}

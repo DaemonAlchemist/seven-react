@@ -1,1 +1,1 @@
-export {Bid} from "./Bid.component";
+export {Bid} from "./Bid.container";

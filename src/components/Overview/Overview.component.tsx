@@ -1,73 +1,84 @@
-import { Button, Divider, Icon } from 'antd';
-import * as React from 'react';
-import { Bid } from "../Bid";
-import { Col, Row } from "../Layout";
-import { Score } from "../Score";
-import { OverviewComponentProps } from './Overview.types';
+import { CheckCircleTwoTone, ReloadOutlined, RightCircleTwoTone } from '@ant-design/icons';
+import { Button, Col, Divider, Popconfirm, Row } from 'antd';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Bid } from '../Bid';
+import { Score } from '../Score';
+import {OverviewProps} from "./Overview.d";
+import './Overview.scss';
 
-const cellWidth = (players:any[]) => ({
-    textAlign: "center",
-    width: `${100.0 / (players.length + 2)}%`
-} as React.CSSProperties);
+export const OverviewComponent = (props:OverviewProps) => {
+    const cellWidth = {
+        textAlign: "center",
+        width: `${100.0 / (props.players.list.length + 2)}%`
+    } as React.CSSProperties;
+    
+    const navigate = useNavigate();
+    const startRound = (roundId:number) => () => {
+        navigate(`/set-bids/${roundId}`);
+    }
 
-export const OverviewComponent = (props:OverviewComponentProps) =>
-    <Row>
+    const newGame = () => {
+        navigate("/");
+    }
+
+    return <Row>
         <Col>
             <div className="ant-table ant-table-default">
                 <div className="ant-table-content">
                     <div className="ant-table-body">
-                        <table>
+                        <table className="overview">
                             <thead className="ant-table-thead">
                                 <tr>
-                                    <th style={cellWidth(props.players)}/>
-                                    {props.players.map(player => 
-                                        <th key={player.id} className="overview-player-header" style={cellWidth(props.players)}>
+                                    <th style={cellWidth}/>
+                                    {props.players.list.map(player => 
+                                        <th key={player.id} className="overview-player-header" style={cellWidth}>
                                             <div className="overview-player-label">{player.name}</div>
                                         </th>
                                     )}
-                                    <th style={cellWidth(props.players)}/>
+                                    <th style={cellWidth}/>
                                 </tr>
                             </thead>
                             <tbody className="ant-table-body">
-                                {props.rounds.map(round =>
+                                {props.rounds.list.map(round =>
                                     <tr key={round.id} className="ant-table-row">
-                                        <td style={cellWidth(props.players)}>
+                                        <td style={cellWidth}>
                                             <b>{round.handCount}</b>
                                         </td>
-                                        {props.players.map(player =>
-                                            <td key={player.id} style={cellWidth(props.players)}>
-                                                <Bid bid={props.getBid(round.id, player.id)} />
+                                        {props.players.list.map(player =>
+                                            <td key={player.id} style={cellWidth}>
+                                                <Bid bid={props.bids.get.one(round.id, player.id)} />
                                             </td>
                                         )}
-                                        <td style={cellWidth(props.players)}>
-                                            <Icon
-                                                onClick={props.startRound(round.id)}
-                                                theme="twoTone"
-                                                type={round.complete ? "check-circle" : "right-circle"}
-                                                twoToneColor={round.complete ? "#00aa00" : undefined}
-                                            />
+                                        <td style={cellWidth}>
+                                            {round.complete
+                                                ? <CheckCircleTwoTone color='#00aa00' onClick={startRound(round.id)} />
+                                                :<RightCircleTwoTone onClick={startRound(round.id)} />
+                                            }
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                             <tfoot className="ant-table-tfoot">
                                 <tr>
-                                    <th style={cellWidth(props.players)}/>
-                                        {props.players.map(player => 
-                                            <th key={player.id} className="overview-player-footer" style={cellWidth(props.players)}>
+                                    <th style={cellWidth}/>
+                                        {props.players.list.map(player => 
+                                            <th key={player.id} className="overview-player-footer" style={cellWidth}>
                                                 <Score playerId={player.id} />
                                             </th>
                                         )}
-                                    <th style={cellWidth(props.players)}/>
+                                    <th style={cellWidth}/>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
-            <Divider />
-            <Button onClick={props.newGame} style={{display: "block", width: "50%", margin: "auto"}}>
-                <Icon type="reload" /> New game
-            </Button>
+            <Popconfirm onConfirm={newGame} title="Are you sure you want to start a new game?" okText="Start a new game" cancelText="Continue this game">
+                <Button style={{display: "block", width: "50%", margin: "auto"}}>
+                    <ReloadOutlined /> New game
+                </Button>
+            </Popconfirm>
         </Col>
     </Row>;
+}

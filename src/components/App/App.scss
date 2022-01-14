@@ -1,0 +1,15 @@
+.app {
+    background-color: #ffffff !important;
+    .ant-layout-header {
+        padding: 0 !important;
+        * {font-weight: bold;}
+        ul li {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+.page-title {
+    font-size: large;
+}

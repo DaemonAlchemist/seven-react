@@ -1,11 +1,11 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import './antd.less';
-import App from './components/App/App.component';
-import registerServiceWorker from './registerServiceWorker';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { App } from './components/App';
+import './index.scss';
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
-registerServiceWorker();
