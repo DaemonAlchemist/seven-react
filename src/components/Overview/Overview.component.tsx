@@ -1,10 +1,10 @@
 import { CheckCircleTwoTone, ReloadOutlined, RightCircleTwoTone } from '@ant-design/icons';
-import { Button, Col, Divider, Popconfirm, Row } from 'antd';
+import { Button, Col, Popconfirm, Row } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bid } from '../Bid';
 import { Score } from '../Score';
-import {OverviewProps} from "./Overview.d";
+import { OverviewProps } from "./Overview.d";
 import './Overview.scss';
 
 export const OverviewComponent = (props:OverviewProps) => {
