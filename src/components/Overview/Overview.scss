@@ -11,6 +11,14 @@ th.overview-player-header {
 }
 
 table.overview {
+    .ant-table-thead {
+        tr {
+            th {
+                border: none;
+                background-color: #ffffff;
+            }
+        }
+    }
     tbody {
         tr td {
             font-size: large;
