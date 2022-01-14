@@ -36,7 +36,9 @@ export const injectPlayers = <T>(props:T):T & IPlayerProps => {
         }        
     }
 
-    return {...props, players: {list: players, add, remove}};
+    const clear = () => {setPlayers([]);}
+
+    return {...props, players: {list: players, add, remove, clear}};
 }
 
 const currentDealer = (firstDealer: number, roundId:number, players: number) => (firstDealer + roundId) % players;
@@ -57,7 +59,9 @@ export const injectRounds = <T>(props:T):T & IRoundsProps => {
         setRounds(rounds.splice(id, 1, {...rounds[id], complete: true}));
     }
 
-    return {...props, rounds: {list: rounds, complete}};
+    const clear = () => {setRounds(initialRounds);}
+
+    return {...props, rounds: {list: rounds, complete, clear}};
 }
 
 export const injectRound = <T>(props:T):T & IRoundProps => {
@@ -97,7 +101,9 @@ export const injectBids = <T>(props:T):T & IBidProps => {
     const clear = () => {setBids([]);}
     const byRound = (roundId:number) => bids.filter(b => b.roundId === roundId);
     const byPlayer = (playerId:number) => bids.filter(b => b.playerId === playerId);
-    const one = (roundId:number, playerId:number) => first(bids.filter(b => b.roundId === roundId && b.playerId === playerId));
+    const one = (roundId:number, playerId:number):IBid =>
+        first(bids.filter(b => b.roundId === roundId && b.playerId === playerId)) ||
+        {roundId, playerId, bid: undefined };
     const set = (roundId:number, playerId:number) => (bid:AllowedBid) => setBids([
         ...bids.filter(b => b.roundId !== roundId || b.playerId !== playerId),
         {roundId, playerId, bid}

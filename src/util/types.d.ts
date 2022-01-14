@@ -44,6 +44,7 @@ export interface IPlayerProps {
         list: IPlayer[];
         add: (name:string) => void;
         remove: (id:number) => () => void;
+        clear: () => void;
     }
 }
 
@@ -58,6 +59,7 @@ export interface IDealerProps {
 export interface IRoundsProps {
     rounds: {
         list: IRound[];
+        clear: () => void;
         complete: (id:number) => () => void;
     }
 }
@@ -77,7 +79,7 @@ export interface IBidProps {
         get: {
             byRound: (roundId:number) => IBid[];
             byPlayer: (playerId:number) => IBid[];
-            one: (roundId:number, playerId:number) => Maybe<IBid>;
+            one: (roundId:number, playerId:number) => IBid;
         },
         set: (roundId:number, playerId:number) => (bid:AllowedBid) => void;
         win: (roundId:number, playerId:number) => () => void;

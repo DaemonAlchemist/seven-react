@@ -10,7 +10,7 @@ import './SetBids.scss';
 
 const getOptions = (handCount:HandCount, isDealer:boolean, cantBid:number):IBidOptionList => {
     const options:IBidOptionList = {[-1]: ''};
-    for(let i=0; i<=handCount + 1; i++) {
+    for(let i=0; i<=handCount; i++) {
         options[i] = !isDealer || i !== cantBid
             ? `${i}`
             : {
@@ -36,7 +36,10 @@ export const SetBidsComponent = (props:SetBidsProps):JSX.Element => {
     const curDealer = props.dealer.current(round.id);
 
     const navigate = useNavigate();
-    const nextRound = () => {navigate(`/set-bids/${round.id + 1}`);}
+    const nextRound = () => {
+        setBidsLocked(false);
+        navigate(`/set-bids/${round.id + 1}`);
+    }
     const prevRound = () => {navigate(`/set-bids/${round.id - 1}`);}
     const backToOverview = () => {navigate('/overview');}
 
@@ -57,21 +60,20 @@ export const SetBidsComponent = (props:SetBidsProps):JSX.Element => {
                         }
                     </>
                 }
-                <div style={{float: "right", display: bidsLocked ? "block" : "none"}}>
+                {bidsLocked && <div style={{float: "right"}}>
                     <GotMineButton roundId={round.id} playerId={player.id} bid={props.bids.get.one(round.id, player.id)?.bid}/>
                     <GotScrewedButton roundId={round.id} playerId={player.id} />
-                </div>
+                </div>}
                 <div style={{marginBottom: bidsLocked ? "16px" : "32px"}}>
-                    <Slider
+                    {!bidsLocked && <Slider
                         disabled={bidsLocked}
                         min={-1}
                         max={round.handCount}
                         marks={getOptions(round.handCount, player.id === curDealer, props.round.dealerCantBid)}
                         step={1}
-                        value={props.bids.get.one(round.id, player.id)?.bid}
+                        value={props.bids.get.one(round.id, player.id).bid}
                         onChange={props.bids.set(round.id, player.id) as (bid:number) => void}
-                        style={{display: bidsLocked ? "none" : undefined}}
-                    />
+                    />}
                 </div>
                 <Divider />
             </Col>

@@ -19,6 +19,9 @@ export const OverviewComponent = (props:OverviewProps) => {
     }
 
     const newGame = () => {
+        props.players.clear();
+        props.rounds.clear();
+        props.bids.clear();
         navigate("/");
     }
 
